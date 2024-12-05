@@ -37,13 +37,13 @@ class WordSearch:
             "up-left": (-1, -1)
         }
 
-        # Base case: if the entire word is found
-        if index == len(self.word):
-            return [(r, c)]  # Return the final position of the matched word
-
         # Boundary and character match check
         if r < 0 or r >= len(self.grid) or c < 0 or c >= len(self.grid[0]) or self.grid[r][c] != self.word[index]:
             return []
+
+        # Base case: if the last character is matched
+        if index == len(self.word) - 1:
+            return [(r, c)]
 
         # Temporarily mark the cell as visited
         temp = self.grid[r][c]
@@ -51,18 +51,19 @@ class WordSearch:
 
         matches = []
 
-        # If no direction yet, try all possible directions
+        # If no direction yet, explore all directions
         if direction is None:
             for dir_name, (dr, dc) in directions.items():
                 matches.extend(self.__dfs(r + dr, c + dc, index + 1, dir_name))
         else:
-            # If a direction is already chosen, continue only in that direction
+            # Continue only in the specified direction
             dr, dc = directions[direction]
             matches.extend(self.__dfs(r + dr, c + dc, index + 1, direction))
 
-        # Restore the cell after exploring
+        # Restore the cell after exploration
         self.grid[r][c] = temp
         return matches
+
 
 
 
