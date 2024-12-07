@@ -2,7 +2,6 @@
 rules = []
 pages = []
 with open('day5/input.txt', 'r') as file:
-    input
     for line in file:
         if "|" in line:
             rules.append(line.strip().split("|"))
